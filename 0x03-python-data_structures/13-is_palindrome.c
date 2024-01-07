@@ -1,37 +1,41 @@
 #include "lists.h"
-#include <stdio.h>
-#include <stdlib.h>
-
 /**
- * is_palindrome - Check if the listint is a Palindrome
- * @head: type listint_s double pointer of node
- * return: 1 if is a pilndrome 0 if not
+ * palindrome - check if is palindrome with recursion
+ * @l: l
+ * @r: r
+ *
+ * Return: 1 palindrome, 0 not palindrome
  */
-
-int is_palindrome(listint_t **head)
+int palindrome(listint_t **l, listint_t *r)
 {
-	if (head == NULL && *head == NULL)
-		return (1);
-	else
-		return (rec_palindrome(head, *head));
+	int response;
+
+	if (r != NULL)
+	{
+		response = palindrome(l, r->next);
+		if (response != 0)
+		{
+			response = (r->n == (*l)->n);
+			*l = (*l)->next;
+			return (response);
+		}
+		return (0);
+
+	}
+	return (1);
 }
 
 /**
- * rec_palindrome - Recursion to check each node as palindrome
- * @head: type listint_s double pointer of node
- * @tail: type listint_s single pointer of last node
- * return: 1 if is a pilndrome 0 if not
+ * is_palindrome - checks if a singly linked list is a palindrome.
+ * @head: head of linked list
+ *
+ * Return: 1 palindrome, 0 not palindrome
  */
-
-int rec_palindrome(listint_t **head, listint_t *tail)
+int is_palindrome(listint_t **head)
 {
-	if (tail == NULL)
-		return (1);
-
-	if (rec_palindrome(head, tail->next) && (*head)->n == tail->n)
+	if (head == NULL)
 	{
-		*head = (*head)->next;
-		return (1);
+		return (0);
 	}
-	return (0);
+	return (palindrome(head, *head));
 }
